@@ -1,0 +1,100 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/commons::head}">
+</head>
+<body>
+<!-- Navigation -->
+<header th:replace="~{fragments/commons::navigation}"></header>
+
+<div class="logo_index">
+    <h1 class="main-title">Smart Routing</h1>
+    <img src="/images/pngwing.com.png">
+</div>
+
+
+<section class="about_section layout_padding">
+
+    <div class="infoo">
+        <div>
+            <h2 class="text-uppercase">
+                How it works
+            </h2>
+        </div>
+
+        <div class="container">
+            <div class="about_card-container layout_padding2-top">
+
+                <div class="about_card">
+                    <div class="about-detail">
+                        <div class="about_img-container">
+                            <div class="about_img-box">
+                                <img src="images/map.jpg" alt=""/>
+                            </div>
+                        </div>
+                        <div class="card_detail-ox">
+                            <h4>
+                                FULLY RESPONSIVE
+                            </h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about_card">
+                    <div class="about-detail">
+                        <div class="about_img-container">
+                            <div class="about_img-box">
+                                <img class="img" src="images/routing.jpg" alt=""/>
+                            </div>
+                        </div>
+                        <div class="card_detail-ox">
+                            <h4>
+                                DOCUMENTED
+                            </h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about_card">
+                    <div class="about-detail">
+                        <div class="about_img-container">
+                            <div class="about_img-box">
+                                <img src="images/processing.png" alt=""/>
+                            </div>
+                        </div>
+                        <div class="card_detail-ox">
+                            <h4>
+                                EASY TO USE
+                            </h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio -->
+<section class="gallery">
+    <img th:each="p : ${pictures}" th:src="${p}" width="200px" height="200px" alt="">
+</section>
+
+<footer th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

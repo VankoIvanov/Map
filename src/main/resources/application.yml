@@ -1,0 +1,52 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/proba
+    password: '123456789'
+  liquibase:
+    change-log: classpath:db/changelog/changelog.sql
+  jpa:
+    hibernate:
+      ddl-auto: update
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 5MB
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 981849740643-dgmgth3b5pudk7di0bb4gaqbv1cr1glk.apps.googleusercontent.com
+            client-secret: "${GOOGLE_API_SECRET}"
+            scope:
+              - email
+              - profile
+          facebook:
+            client-id: 694859184962732
+            client-secret: "${FACEBOOK_API_SECRET}"
+            scope:
+              - email
+              - public_profile
+bezkoder:
+  app:
+    jwtExpirationMs: '86400000'
+    jwtSecret: bezKoderSecretKey
+logging:
+  level:
+    org:
+      springframework:
+        context: DEBUG
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace
+cloudinary:
+#  cloud-name: https-github-com-vankoivanov-web-service
+#  api-key: 654829793914841
+#  api-secret: "${CLOUDINARY_API_SECRET}"
+

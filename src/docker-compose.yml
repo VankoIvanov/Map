@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  map:
+    container_name: ${LOCATION}_db
+    image: ${POSTGRES_IMAGE}
+    environment:
+      POSTGRES_DB: ${LOCATION}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456789
+    ports:
+      - "5434:5432"

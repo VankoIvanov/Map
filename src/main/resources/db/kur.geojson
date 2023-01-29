@@ -1,0 +1,44 @@
+{"type":"FeatureCollection",
+"features":[
+	{
+	 "type":"Feature",
+	 "id":0,
+	 "geometry":
+		{
+		 "type":"LineString",
+		 "coordinates":[
+			[23.267923390220513,42.737054899360942],
+			[23.26792327525062,42.737166411297949]
+		]
+		},
+	 "properties":
+		{
+		 "FID":0,
+		 "id":164,
+		 "name":"ул. 25",
+		 "type":"Тротоар",
+		 "modified_a":"2020/04/07 16:11:38.000",
+		 "modified_b":"kaloyan"
+		}
+	},
+	{
+	 "type":"Feature",
+	 "id":1,
+	 "geometry":
+		{
+		 "type":"LineString",
+		 "coordinates":[
+			[23.271833072649308,42.738099764538092],
+			[23.27185421854303,42.738118776593339]
+		]
+		},
+	 "properties":
+		{
+		 "FID":1,
+		 "id":165,
+		 "name":"Локална алея",
+		 "type":"Алея с настилка",
+		 "modified_a":"2020/04/07 16:11:38.000",
+		 "modified_b":"kaloyan"
+		}
+	}]}

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@wabson/mapbox-gl-feature-info": "^0.0.7"
+  }
+}

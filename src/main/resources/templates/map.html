@@ -1,0 +1,628 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<!--<head th:replace="fragments/commons::head">-->
+<head>
+    <meta charset="utf-8"/>
+    <title>Display a map</title>
+    <!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.js"></script>
+    <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css"/>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.js"></script>
+
+    <!--    <script src="node_modules/@wabson/mapbox-gl-feature-info/dist/lib.bundle.js" type="application/javascript"></script>-->
+
+
+    <link
+            rel="stylesheet"
+            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css"
+            type="text/css"
+    />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .mapboxgl-popup {
+            max-width: 400px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>
+<!--<header th:replace="fragments/commons::navigation"></header>-->
+<div id="map"></div>
+<div>
+    <!--    <script>-->
+    <!--        // import { LineStringInfoControl, PointInfoControl, MultiLineInfoControl, DrawNamedLineMode } from '@wabson/mapbox-gl-feature-info';-->
+    <!--        // const resp = await fetch('./peshehodna_mreja_website.geojson');-->
+    <!--        // const data = await resp.json();-->
+    <!--        // console.log(data)-->
+
+    <!--        // fetch('http://localhost:8080/map', {-->
+    <!--        //     method: 'GET',-->
+    <!--        //     headers: {-->
+    <!--        //         'Accept': 'text',-->
+    <!--        //     },-->
+    <!--        // })-->
+    <!--        //     .then(response => response.text())-->
+    <!--        //     .then(text => console.log(text))-->
+
+    <!--        // const formDataAsJSONString = JSON.stringify(null);-->
+
+    <!--        const url = 'http://localhost:8080/map';-->
+
+    <!--        // const fetchOptions = {-->
+    <!--        //     method: "POST",-->
+    <!--        //     headers: {-->
+    <!--        //         //[csrfHeaderName] : csrfHeaderValue,-->
+    <!--        //         "Content-Type" : "application/json",-->
+    <!--        //         "Accept" :"application/json"-->
+    <!--        //     },-->
+    <!--        //     body: {}-->
+    <!--        // }-->
+    <!--        //-->
+    <!--        // const response = await fetch(url, fetchOptions);-->
+    <!--        //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+    <!--        //var dataGeoJSON=null;-->
+
+
+    <!--        // postData('http://localhost:8080/map')-->
+    <!--        //     .then((data)=>{-->
+    <!--        //     //return dataGeoJSON=data;-->
+    <!--        //         console.log(data);-->
+    <!--        //         //dataGeoJSON = data;-->
+    <!--        // });-->
+
+    <!--        //console.log(dataGeoJSON);-->
+
+    <!--        //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+    <!--        const key = 'ZMf49lQ4XftsS84DIpoP';-->
+    <!--        const map = new maplibregl.Map({-->
+    <!--            container: 'map', // container id-->
+    <!--            style: `https://api.maptiler.com/maps/openstreetmap/style.json?key=${key}`, // style URL-->
+    <!--            center: [23.318998724, 42.673830638], // starting position [lng, lat]-->
+    <!--            zoom: 12 // starting zoom-->
+    <!--        });-->
+    <!--        map.addControl(new maplibregl.NavigationControl(), 'bottom-right');-->
+    <!--        map.addControl(-->
+    <!--            new maplibregl.GeolocateControl({-->
+    <!--                positionOptions: {-->
+    <!--                    enableHighAccuracy: true-->
+    <!--                },-->
+    <!--                trackUserLocation: true-->
+    <!--            }));-->
+    <!--        map.on('error', function (err) {-->
+    <!--            throw new Error("To load the map, you must replace YOUR_MAPTILER_API_KEY_HERE first, see README");-->
+    <!--        });-->
+
+    <!--        fetch(`https://api.maptiler.com/geolocation/ip.json?key=${key}`)-->
+    <!--            .then((response) => response.json())-->
+    <!--            .then((data) => {-->
+    <!--                let {country_code} = data;-->
+    <!--                window.cookieconsent.initialise({-->
+    <!--                    cookie: {-->
+    <!--                        domain: "YOUR_DOMAIN"-->
+    <!--                    },-->
+    <!--                    palette: {-->
+    <!--                        popup: {background: "#EFF3FB", text: "#333359", link: "#3170FE"},-->
+    <!--                        button: {background: "#3170FE"},-->
+    <!--                    },-->
+    <!--                    theme: "classic",-->
+    <!--                    type: "opt-out",-->
+    <!--                    revokable: true,-->
+    <!--                    content: {-->
+    <!--                        href: "https://YOUR_DOMAIN/privacy-policy/"-->
+    <!--                    },-->
+    <!--                    law: {-->
+    <!--                        regionalLaw: false,-->
+    <!--                        countryCode: country_code-->
+    <!--                    },-->
+    <!--                    legal: country_code-->
+    <!--                });-->
+    <!--            });-->
+
+    <!--        let json;-->
+
+    <!--       async function postData(url = 'http://localhost:8080/map') {-->
+    <!--            const response = await fetch(url, {-->
+    <!--                method: 'POST',-->
+    <!--                headers: {-->
+    <!--                    //'Accept': 'application/json',-->
+    <!--                    'Content-Type': 'application/json'-->
+    <!--                },-->
+    <!--                body: {}-->
+    <!--            });-->
+    <!--            return await response.json();-->
+    <!--        };-->
+
+
+    <!--        postData('http://localhost:8080/map')-->
+    <!--            .then((data) => {-->
+    <!--                json = JSON.stringify(data).replaceAll("},{\"feature_info\":", ",").replace("{\"feature_info\":", "");-->
+    <!--                json = json.substring(0, json.length - 2);-->
+    <!--                json = json.concat("]");-->
+    <!--                // console.log(json);-->
+
+    <!--                // map.on('load', function () {-->
+    <!--                //     map.addSource('maine', {-->
+    <!--                //         'type': 'geojson',-->
+    <!--                //         'data': {"type":"FeatureCollection",-->
+    <!--                //             "features":[-->
+    <!--                //                 {-->
+    <!--                //                     "type":"Feature",-->
+    <!--                //                     "id":0,-->
+    <!--                //                     "geometry":-->
+    <!--                //                         {-->
+    <!--                //                             "type":"LineString",-->
+    <!--                //                             "coordinates":[-->
+    <!--                //                                 [23.267923390220513,42.737054899360942],-->
+    <!--                //                                 [23.26792327525062,42.737166411297949]-->
+    <!--                //                             ]-->
+    <!--                //                         },-->
+    <!--                //                     "properties":-->
+    <!--                //                         {-->
+    <!--                //                             "FID":0,-->
+    <!--                //                             "id":164,-->
+    <!--                //                             "name":"ул. 25",-->
+    <!--                //                             "type":"Тротоар",-->
+    <!--                //                             "modified_a":"2020/04/07 16:11:38.000",-->
+    <!--                //                             "modified_b":"kaloyan"-->
+    <!--                //                         }-->
+    <!--                //                 },-->
+    <!--                //                 {-->
+    <!--                //                     "type":"Feature",-->
+    <!--                //                     "id":1,-->
+    <!--                //                     "geometry":-->
+    <!--                //                         {-->
+    <!--                //                             "type":"LineString",-->
+    <!--                //                             "coordinates":[-->
+    <!--                //                                 [23.271833072649308,42.738099764538092],-->
+    <!--                //                                 [23.27185421854303,42.738118776593339]-->
+    <!--                //                             ]-->
+    <!--                //                         },-->
+    <!--                //                     "properties":-->
+    <!--                //                         {-->
+    <!--                //                             "FID":1,-->
+    <!--                //                             "id":165,-->
+    <!--                //                             "name":"Локална алея",-->
+    <!--                //                             "type":"Алея с настилка",-->
+    <!--                //                             "modified_a":"2020/04/07 16:11:38.000",-->
+    <!--                //                             "modified_b":"kaloyan"-->
+    <!--                //                         }-->
+    <!--                //                 }]}-->
+    <!--                //     });-->
+    <!--                //-->
+    <!--                //     map.addLayer({-->
+    <!--                //         'id': 'grand_teton',-->
+    <!--                //         'type': 'line',-->
+    <!--                //         'source': 'maine',-->
+    <!--                //         'layout': {},-->
+    <!--                //         'paint': {-->
+    <!--                //             'line-color': '#000',-->
+    <!--                //             'line-width': 2-->
+    <!--                //         }-->
+    <!--                //     });-->
+    <!--                // })-->
+    <!--            });-->
+
+    <!--        console.log(json);-->
+
+
+    <!--        map.on('load', function () {-->
+    <!--            map.addSource('maine', {-->
+    <!--                'type': 'geojson',-->
+    <!--                'data': {-->
+    <!--                    "type": "FeatureCollection",-->
+    <!--                    "features": [-->
+    <!--                    ]-->
+    <!--                }-->
+    <!--            });-->
+
+    <!--            map.addLayer({-->
+    <!--                'id': 'grand_teton',-->
+    <!--                'type': 'line',-->
+    <!--                'source': 'maine',-->
+    <!--                'layout': {},-->
+    <!--                'paint': {-->
+    <!--                    'line-color': '#000',-->
+    <!--                    'line-width': 2-->
+    <!--                }-->
+    <!--            });-->
+    <!--        })-->
+
+    <!--        map.on('load', () => {-->
+    <!--// Load an image from an external URL.-->
+    <!--            map.loadImage(-->
+    <!--                'https://docs.mapbox.com/mapbox-gl-js/assets/cat.png',-->
+    <!--                (error, image) => {-->
+    <!--                    if (error) throw error;-->
+
+    <!--// Add the image to the map style.-->
+    <!--                    map.addImage('cat', image);-->
+
+    <!--// Add a data source containing one point feature.-->
+    <!--                    map.addSource('point', {-->
+    <!--                        'type': 'geojson',-->
+    <!--                        'data': {-->
+    <!--                            'type': 'FeatureCollection',-->
+    <!--                            'features': [-->
+    <!--                                {-->
+    <!--                                    'type': 'Feature',-->
+    <!--                                    'geometry': {-->
+    <!--                                        'type': 'Point',-->
+    <!--                                        'coordinates': [23.3401, 42.6434]-->
+    <!--                                    }-->
+    <!--                                }-->
+    <!--                            ]-->
+    <!--                        }-->
+    <!--                    });-->
+
+    <!--// Add a layer to use the image to represent the data.-->
+    <!--                    map.addLayer({-->
+    <!--                        'id': 'points',-->
+    <!--                        'type': 'symbol',-->
+    <!--                        'source': 'point', // reference the data source-->
+    <!--                        'layout': {-->
+    <!--                            'icon-image': 'cat', // reference the image-->
+    <!--                            'icon-size': 0.25-->
+    <!--                        }-->
+    <!--                    });-->
+
+    <!--                }-->
+    <!--            );-->
+    <!--        });-->
+
+    <!--        var draw = new MapboxDraw({-->
+    <!--            displayControlsDefault: false,-->
+    <!--            controls: {-->
+    <!--                line_string: true,-->
+    <!--                trash: true-->
+    <!--            },-->
+    <!--            // modes: Object.assign({}, MapboxDraw.modes, {'draw_line_string': DrawNamedLineMode}),-->
+    <!--        });-->
+
+    <!--        map.addControl(draw);-->
+
+
+    <!--        // var LineStringInfoControl = mapboxglFeatureInfo.LineStringInfoControl; // only for <script> tag method-->
+    <!--        // map.on('load', () => {-->
+    <!--        //     map.addControl(draw);-->
+    <!--        //     map.addControl(new LineStringInfoControl({-->
+    <!--        //         distanceUnits: 'kilometers',-->
+    <!--        //         drawControl: draw-->
+    <!--        //     }))});-->
+
+    <!--    </script>-->
+    <!--    <script th:src="@{/js/OpenLayers.js}">-->
+    <!--    </script>-->
+
+    <script>
+        // import { LineStringInfoControl, PointInfoControl, MultiLineInfoControl, DrawNamedLineMode } from '@wabson/mapbox-gl-feature-info';
+        // const resp = await fetch('./peshehodna_mreja_website.geojson');
+        // const data = await resp.json();
+        // console.log(data)
+
+        // fetch('http://localhost:8080/map', {
+        //     method: 'GET',
+        //     headers: {
+        //         'Accept': 'text',
+        //     },
+        // })
+        //     .then(response => response.text())
+        //     .then(text => console.log(text))
+
+        // const formDataAsJSONString = JSON.stringify(null);
+
+
+        // const fetchOptions = {
+        //     method: "POST",
+        //     headers: {
+        //         //[csrfHeaderName] : csrfHeaderValue,
+        //         "Content-Type" : "application/json",
+        //         "Accept" :"application/json"
+        //     },
+        //     body: {}
+        // }
+        //
+        // const response = await fetch(url, fetchOptions);
+        //-----------------------------------------------------------------------
+
+        //var dataGeoJSON=null;
+
+
+        // postData('http://localhost:8080/map')
+        //     .then((data)=>{
+        //     //return dataGeoJSON=data;
+        //         console.log(data);
+        //         //dataGeoJSON = data;
+        // });
+
+        //console.log(dataGeoJSON);
+
+        //---------------------------
+
+        async function postData(url = 'http://localhost:8080/map') {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    //'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: {}
+            });
+            return await response.json();
+        };
+
+
+        postData('http://localhost:8080/map')
+            .then((data) => {
+                let jsonn = JSON.stringify(data).replaceAll("},{\"feature_info\":", ",").replace("{\"feature_info\":", "");
+                jsonn = jsonn.substring(0, jsonn.length - 2);
+                jsonn = jsonn.concat("]").toString();
+
+                const key = 'ZMf49lQ4XftsS84DIpoP';
+                const map = new maplibregl.Map({
+                    container: 'map', // container id
+                    style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${key}`, // style URL
+                    center: [23.318998724, 42.673830638], // starting position [lng, lat]
+                    zoom: 12 // starting zoom
+                });
+                map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
+                map.addControl(
+                    new maplibregl.GeolocateControl({
+                        positionOptions: {
+                            enableHighAccuracy: true
+                        },
+                        trackUserLocation: true
+                    }));
+                map.on('error', function (err) {
+                    throw new Error("To load the map, you must replace YOUR_MAPTILER_API_KEY_HERE first, see README");
+                });
+
+
+                fetch(`https://api.maptiler.com/geolocation/ip.json?key=${key}`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        let {country_code} = data;
+                        window.cookieconsent.initialise({
+                            cookie: {
+                                domain: "YOUR_DOMAIN"
+                            },
+                            palette: {
+                                popup: {background: "#EFF3FB", text: "#333359", link: "#3170FE"},
+                                button: {background: "#3170FE"},
+                            },
+                            theme: "classic",
+                            type: "opt-out",
+                            revokable: true,
+                            content: {
+                                href: "https://YOUR_DOMAIN/privacy-policy/"
+                            },
+                            law: {
+                                regionalLaw: false,
+                                countryCode: country_code
+                            },
+                            legal: country_code
+                        });
+                    });
+
+                map.on('load', function () {
+                    map.addSource('maine', {
+                        'type': 'geojson',
+                        'data': {
+                            "type": "FeatureCollection",
+                            "features":
+                                JSON.parse(jsonn)
+
+                        }
+                    });
+
+                    map.addLayer({
+                        'id': 'grand_teton',
+                        'type': 'line',
+                        'source': 'maine',
+                        'layout': {},
+                        'paint': {
+                            'line-color': '#000',
+                            'line-width': 2
+                        }
+                    });
+
+//                     // When a click event occurs on a feature in the places layer, open a popup at the
+// // location of the feature, with description HTML from its properties.
+//                     map.on('click', 'load', (e) => {
+// // Copy coordinates array.
+//                         const coordinates = e.features[0].geometry.coordinates.slice();
+//                         //const type = e.features[0].properties.type;
+//                         const type= "Vaanko Vankoooooooo help "
+//
+// // Ensure that if the map is zoomed out such that multiple
+// // copies of the feature are visible, the popup appears
+// // over the copy being pointed to.
+// //                         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+// //                             coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+// //                         }
+//
+//                         new mapboxgl.Popup()
+//                             .setLngLat(coordinates)
+//                             .setHTML(type)
+//                             .addTo(map);
+//                     });
+//
+// // Change the cursor to a pointer when the mouse is over the places layer.
+//                     map.on('mouseenter', 'load', () => {
+//                         map.getCanvas().style.cursor = 'pointer';
+//                     });
+//
+// // Change it back to a pointer when it leaves.
+//                     map.on('mouseleave', 'load', () => {
+//                         map.getCanvas().style.cursor = '';
+//                     });
+
+
+
+                })
+
+                map.on('load', () => {
+// Load an image from an external URL.
+                    map.loadImage(
+                        'https://docs.mapbox.com/mapbox-gl-js/assets/cat.png',
+                        (error, image) => {
+                            if (error) throw error;
+
+// Add the image to the map style.
+                            map.addImage('cat', image);
+
+// Add a data source containing one point feature.
+                            map.addSource('point', {
+                                'type': 'geojson',
+                                'data': {
+                                    'type': 'FeatureCollection',
+                                    'features': [
+                                        {
+                                            'type': 'Feature',
+                                            'geometry': {
+                                                'type': 'Point',
+                                                'coordinates': [23.3401, 42.6434]
+                                            }
+                                        },
+                                        {
+                                            'type': 'Feature',
+                                            'geometry': {
+                                                'type': 'Point',
+                                                'coordinates': [23.3612, 42.6891]
+                                            }
+                                        }
+                                    ]
+                                }
+                            });
+
+// Add a layer to use the image to represent the data.
+                            map.addLayer({
+                                'id': 'points',
+                                'type': 'symbol',
+                                'source': 'point', // reference the data source
+                                'layout': {
+                                    'icon-image': 'cat', // reference the image
+                                    'icon-size': 0.25
+                                }
+                            });
+
+                        }
+                    );
+                });
+
+                var draw = new MapboxDraw({
+                    displayControlsDefault: false,
+                    controls: {
+                        line_string: true,
+                        trash: true
+                    },
+                    // modes: Object.assign({}, MapboxDraw.modes, {'draw_line_string': DrawNamedLineMode}),
+                });
+
+                map.addControl(draw);
+
+
+                // Create a popup, but don't add it to the map yet.
+                var popup = new maplibregl.Popup({
+                    closeButton: true,
+                    closeOnClick: true
+                    //maxWidth: 'none'
+
+                });
+
+                // function moreInfo(id) {
+                //     console.log("Kur da te ebe");
+                //     let url="http://localhost:8080/map/pedestriansection/"+id;
+                //     fetch(url,{
+                //         method: "GET"
+                //     })
+                // }
+
+                map.on('click', 'grand_teton', function (e) {
+                    // Change the cursor style as a UI indicator.
+                    map.getCanvas().style.cursor = 'pointer';
+
+
+                    let coordinates = e.lngLat;
+                    let id=e.features[0].id;
+                    let name = e.features[0].properties.name
+                    let type = e.features[0].properties.type;
+                    let modifiedDate= e.features[0].properties.modified_a;
+                    let modifiedPerson= e.features[0].properties.modified_b;
+
+
+                    // this.moreInfo = function () {
+                    //     console.log("Kur")
+                    // }
+
+
+
+                    //let but = '<button class=btn onclick='+moreInfo(id)+'>More info</button>'
+                    let url = "http://localhost:8080/map/pedestriansection/"+id;
+                    let but = '<a href="'+url+'" className="btn">Learn More</a>'
+
+                    //onclick=' + { this.handlePop } + '
+                    let info = "Име: "+name+"\n"+"Тип: "+type+"\nМодифициран от: "+modifiedPerson+ "\nМодифициран на: "+modifiedDate+but;
+
+                    console.log(info);
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    // }
+
+                    // Populate the popup and set its coordinates
+                    // based on the feature found.
+                    popup.setLngLat(coordinates).setHTML(info).addTo(map);
+
+                });
+
+
+                // Change the cursor to a pointer when the mouse is over the places layer.
+                map.on('mouseenter', 'grand_teton', function() {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+
+                // Change it back to a pointer when it leaves.
+                map.on('mouseleave', 'grand_teton', function() {
+                    map.getCanvas().style.cursor = '';
+                });
+
+                // map.on('click', 'grand_teton', function () {
+                //     map.getCanvas().style.cursor = '';
+                //     opopup.remove();
+                // });
+            });
+
+
+        // var LineStringInfoControl = mapboxglFeatureInfo.LineStringInfoControl; // only for <script> tag method
+        // map.on('load', () => {
+        //     map.addControl(draw);
+        //     map.addControl(new LineStringInfoControl({
+        //         distanceUnits: 'kilometers',
+        //         drawControl: draw
+        //     }))});
+
+    </script>
+</div>
+<!--<footer th:replace="fragments/commons::footer"></footer>-->
+</body>
+</html>
